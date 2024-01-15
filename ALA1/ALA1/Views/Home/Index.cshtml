@@ -1,0 +1,19 @@
+﻿@model IEnumerable<ALA1.Models.FileModel>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Система автоматизации оценки learnability интерфейса</h1>
+</div>
+<p>Загрузите сюда xaml-файлы вашего интерфейса</p>
+<form asp-action="AddFile" asp-controller="Home" method="post" enctype="multipart/form-data">
+    <input type="file" name="uploadedFile" /><br>
+    <input type="submit" value="Загрузить" />
+</form>
+
+<h3>Все файлы</h3>
+@foreach (var f in Model)
+{
+    <p><img src="@Url.Content(f.Path)"></p>
+}
