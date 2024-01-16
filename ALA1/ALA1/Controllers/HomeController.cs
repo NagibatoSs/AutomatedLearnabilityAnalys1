@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using ALA1.Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -14,10 +15,12 @@ namespace ALA1.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IWebHostEnvironment _webHost;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IWebHostEnvironment webHost)
         {
             _logger = logger;
+            _webHost = webHost;
         }
 
         public IActionResult Index()
@@ -37,9 +40,21 @@ namespace ALA1.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddFile(IFormFile uploadedFile)
+        public async Task<IActionResult> Upload(IFormFile uploadedFile)
         {
-            return RedirectToAction("Index");
+            string uploadFolder = Path.Combine(_webHost.WebRootPath, "Files1");
+            if (!Directory.Exists(uploadFolder))
+            {
+                Directory.CreateDirectory(uploadFolder);
+            }
+            string fileName = Path.GetFileName(uploadedFile.FileName);
+            string fileSavePath = Path.Combine(uploadFolder, fileName);
+            using (FileStream stream = new FileStream(fileSavePath, FileMode.Create))
+            {
+                await uploadedFile.CopyToAsync(stream);
+            }
+            ViewBag.Message = fileName + " uploaded successfully";
+            return View();
         }
 
     }

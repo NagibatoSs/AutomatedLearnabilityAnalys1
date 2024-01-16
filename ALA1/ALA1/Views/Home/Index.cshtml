@@ -7,13 +7,10 @@
     <h1 class="display-4">Система автоматизации оценки learnability интерфейса</h1>
 </div>
 <p>Загрузите сюда xaml-файлы вашего интерфейса</p>
-<form asp-action="AddFile" asp-controller="Home" method="post" enctype="multipart/form-data">
+<form asp-action="Upload" asp-controller="Home" method="post" enctype="multipart/form-data">
     <input type="file" name="uploadedFile" /><br>
     <input type="submit" value="Загрузить" />
+    <div>
+        @ViewBag.Message
+    </div>
 </form>
-
-<h3>Все файлы</h3>
-@foreach (var f in Model)
-{
-    <p><img src="@Url.Content(f.Path)"></p>
-}
