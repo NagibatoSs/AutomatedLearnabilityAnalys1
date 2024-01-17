@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using UIAssestment.Models;
+using UIAssestment.TextReading;
 
 namespace UIAssestment.Controllers
 {
@@ -36,8 +37,9 @@ namespace UIAssestment.Controllers
                 {
                     await uploadedFile.CopyToAsync(stream);
                 }
-                ViewBag.Message += fileName + " uploaded successfully ";
+                
             }
+            ViewBag.Message = Assestment.DoAssestment();
             return View();
         }
 
