@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using UIAssestment.Assest;
 using UIAssestment.Models;
 using UIAssestment.TextReading;
 
@@ -37,9 +38,11 @@ namespace UIAssestment.Controllers
                 {
                     await uploadedFile.CopyToAsync(stream);
                 }
-                
+                var assess = new ControlElementsAssessment();
+                assess.Process();
+                ViewBag.Message = String.Format("Rate = {0}, Message = {1}", assess.Rate, assess.RateMessage);
             }
-            ViewBag.Message = Assestment.DoAssestment();
+            
             return View();
         }
 

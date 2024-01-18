@@ -2,7 +2,7 @@
 
 namespace UIAssestment.TextReading
 {
-    public class WindowAssestment
+    public class WindowAssessment
     {
         public async Task<string> ReadFileAsync(string fileName)
         {
